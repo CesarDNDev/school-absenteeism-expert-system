@@ -1,0 +1,610 @@
+﻿IES Maestre de Calatrava
+Módulo: Modelos de Inteligencia Artificial
+Adquisición del conocimiento y conceptualización
+Sistema experto de apoyo a la decisión inicial ante casos de absentismo escolar en adolescentes
+Autor/a:
+	César Domínguez Notario
+	Curso:
+	Curso de Especialización en Inteligencia Artificial y Big Data
+	Fecha:
+	16 / 04 / 2026
+	Documento:
+	Trabajo de adquisición del conocimiento y conceptualización
+	________________
+
+
+1. Introducción        3
+2. Descripción        3
+3. Alcance y Límites        4
+4. Estudio de viabilidad        4
+5. Datos generales de la fuente experta        5
+5.1 Entrevista Nº1        5
+5.1.1 Identificación de términos aparecidos en la entrevista.        6
+5.1.2 Identificación de las relaciones entre términos.        7
+5.1.3 Resumen del conocimiento adquirido.        7
+5.1.4 Identificación de reglas.        7
+5.2 Entrevista Nº2        8
+5.2.1 Identificación de términos aparecidos en la entrevista.        9
+5.2.2 Identificación de las relaciones entre términos.        10
+5.2.3 Resumen del conocimiento adquirido.        10
+5.2.4 Identificación de reglas.        10
+5.3 Entrevista Nº3        11
+5.3.1 Identificación de términos aparecidos en la entrevista.        12
+5.3.2 Identificación de las relaciones entre términos.        13
+5.3.3 Resumen del conocimiento adquirido.        13
+5.3.4 Identificación de reglas.        13
+6. Conceptualización        14
+6.1 Glosario de términos        14
+6.2 Diccionario de conceptos        15
+6.3 Modelo de proceso y control        16
+6.4 Mapa de conocimientos        16
+6.5 Reglas de producción preliminares        17
+6. Conclusión        18
+________________
+
+
+1. Introducción
+
+
+Este documento recoge la fase de adquisición del conocimiento y la fase de conceptualización para el desarrollo de un sistema experto orientado a apoyar la decisión inicial ante casos de absentismo escolar en adolescentes.
+Se parte de tres entrevistas realizadas a una profesional del ámbito socioeducativo. A partir de esas entrevistas se identifican términos, relaciones, criterios de decisión y reglas de actuación. Posteriormente, ese conocimiento se organiza en forma de glosario, diccionario de conceptos, modelo de proceso y control y mapa de conocimientos.
+2. Descripción
+
+
+El problema que se pretende abordar es la necesidad de apoyar al profesional
+socioeducativo en la toma de decisiones iniciales ante casos de absentismo
+escolar en adolescentes. En muchos contextos, la valoración preliminar depende
+de numerosos indicadores que deben analizarse de forma consistente: número y
+frecuencia de faltas, reincidencia, antecedentes de intervención, coordinación
+con el centro educativo, respuesta familiar, indicadores de vulnerabilidad y
+gravedad del caso.
+
+
+La propuesta consiste en desarrollar un sistema experto que, a partir de un
+conjunto de indicadores observables y reglas previamente definidas por
+conocimiento experto, recomiende el protocolo inicial de actuación más
+adecuado. No se trata de sustituir al educador social, sino de ofrecer una
+herramienta de apoyo a la decisión que mejore la homogeneidad, trazabilidad y
+rapidez de la intervención inicial.
+
+
+Los objetivos del sistema serían: identificar el nivel inicial de riesgo asociado al
+absentismo, proponer una actuación socioeducativa inicial coherente con
+criterios preestablecidos, facilitar la derivación o activación del protocolo
+correspondiente y servir como apoyo explicable para el profesional responsable.
+Desde la perspectiva de la Inteligencia Computacional, esta tarea es susceptible
+de ser tratada mediante un sistema experto porque puede representarse
+mediante reglas de producción del tipo “si se cumplen determinados indicadores,
+entonces se recomienda un protocolo concreto”. La tarea es acotada, tiene
+entradas observables y permite justificar las recomendaciones emitidas por el
+Sistema.
+
+
+
+
+
+
+
+
+3. Alcance y Límites
+
+
+El alcance del sistema propuesto se centra exclusivamente en la fase inicial de
+valoración y recomendación de actuación ante absentismo escolar en
+adolescentes. En concreto, el sistema podrá:
+
+
+* registrar y valorar indicadores objetivos relacionados con absentismo escolar
+* clasificar la situación inicial según criterios predefinidos
+*  recomendar un protocolo inicial de intervención socioeducativa
+*  apoyar la derivación a recursos o actuaciones previstas en el procedimiento
+establecido
+*  explicar la recomendación a partir de las reglas aplicadas.
+
+
+Los límites del sistema serán los siguientes:
+*  no sustituirá la valoración profesional final del educador social;
+* no realizará diagnóstico clínico, psicológico ni jurídico;
+* no resolverá casos no contemplados en la base de conocimiento;
+* no decidirá sanciones ni medidas administrativas;
+* no abordará de forma integral todas las causas del absentismo, sino únicamente la
+recomendación protocolizada inicial a partir de indicadores observables.
+
+
+Por tanto, el sistema se plantea como una herramienta de apoyo a la decisión
+inicial en un contexto acotado, con reglas explícitas y con supervisión humana
+obligatoria.
+
+
+4. Estudio de viabilidad
+
+
+El estudio de viabilidad se ha realizado siguiendo el test de Slagel, valorando la aplicación candidata en las dimensiones de Plausibilidad, Justificación, Adecuación y Éxito. Para ello se han asignado valores a las características de cada dimensión en función del planteamiento de la propuesta, acotada y basada en indicadores objetivos y criterios predefinidos. 
+
+
+La reformulación del sistema es protocolizable, apenas requiere juicio abierto y permite representar el conocimiento experto mediante reglas más estables y explicables. En el estudio realizado, el valor de evaluación normalizado obtenido es de 80,15%.
+
+
+
+
+5. Datos generales de la fuente experta
+Nombre del experto/a
+	María José Notario Asensio
+	Ingeniero/a del conocimiento
+	César Domínguez Notario
+	Centro / entidad
+	Ayuntamiento de Ciudad Real
+	
+
+5.1 Entrevista Nº1
+Fecha
+	16 / 04/ 2026
+	Hora
+	21:00
+	Lugar
+	Domicilio habitual del experto
+	Asistentes
+	César Domínguez Notario y Maria José Notario Asensio
+	Tipo de entrevista
+	Parcialmente estructurada
+	Soporte
+	Basada en la adquisición progresiva del conocimiento experto
+	Objetivo general
+	Conocer el lenguaje y las variables utilizadas por el profesional para valorar el absentismo escolar.
+	
+
+Objetivos específicos:
+* Identificar los indicadores principales que intervienen en la valoración inicial.
+* Obtener una visión general del flujo de actuación inicial.
+* Detectar actores, herramientas y criterios utilizados en la práctica profesional.
+Planteamiento de la sesión: batería de preguntas planteadas al experto.
+1. Cuando te llega un posible caso de absentismo escolar, ¿qué es lo primero que necesitas saber para empezar a valorarlo?
+2. ¿Qué indicadores consideras más importantes para decidir si un caso es leve, preocupante o grave?
+3. ¿Cómo distingues una ausencia puntual o circunstancial de un caso de absentismo que requiere intervención?
+4. ¿Qué peso tienen para ti el número de faltas, la frecuencia y la duración en el tiempo?
+5. ¿Qué importancia tiene la edad del adolescente o el curso en el que está?
+6. ¿Qué papel juega la reincidencia o la existencia de antecedentes de absentismo?
+7. ¿Cómo influye la respuesta de la familia en la valoración inicial del caso?
+8. ¿Qué señales te hacen pensar que puede haber una situación de vulnerabilidad social o familiar detrás del absentismo?
+9. ¿Qué información necesitas del centro educativo antes de tomar una decisión inicial?
+10. ¿Qué profesionales suelen intervenir o coordinarse en esta primera fase?
+11. ¿Podrías describirme paso a paso cómo actuaste en el último caso real de absentismo que recuerdes?
+12. ¿En qué momento consideras que ya no basta una actuación educativa ordinaria y hay que activar otro protocolo o derivación?
+
+
+Resultados de la sesión:
+1. El profesional comienza leyendo el informe remitido por el centro escolar y revisando las causas descritas en dicho informe.
+2. Los indicadores más relevantes son la colaboración de la familia, la situación económica, la relación con la familia extensa y biológica, la red de iguales y las circunstancias personales ligadas a la salud mental y física.
+3. Se considera absentismo cuando existe un porcentaje de faltas injustificadas que encaja en los niveles de intensidad del protocolo: 25 % baja, 50 % media y 75 % alta.
+4. El número de faltas tiene mucho peso, junto con la frecuencia y la duración mantenida en el tiempo.
+5. La edad es importante en relación con la etapa evolutiva. Cuanto más temprana sea la edad, antes conviene intervenir. La intervención del profesional se sitúa entre los 6 y los 16 años.
+6. La reincidencia es relevante y se relaciona con el grado de conciencia del núcleo familiar sobre la necesidad de la educación.
+7. La respuesta familiar condiciona la continuidad del protocolo. Si la familia rechaza colaborar, el caso puede avanzar por vía judicial con intervención de fiscalía de menores.
+8. La vulnerabilidad se valora con la herramienta SISO, que puntúa de 0 a 100 diferentes ámbitos familiares y sociales.
+9. El experto necesita, además del protocolo, una valoración del centro sobre las situaciones problemáticas detectadas y su influencia en el absentismo.
+10. Desde los servicios sociales intervienen educador/a social y trabajador/a social. Desde el centro, orientadores, jefatura de estudios, y en algunos casos dirección y educador/a social del propio centro.
+11. El experto sigue las fases del protocolo, aunque los plazos teóricos no suelen cumplirse. Antes de informar a protección de menores, intenta trabajar con recursos externos como la entidad Diagrama o el programa Senda, que aportan psicólogos y orientadores.
+12. Cuando el equipo de servicios sociales, especialmente el ETI, valora que el caso supera la intervención ordinaria y la colaboración familiar es insuficiente, se plantea el paso a protección.
+
+
+Plan de análisis:
+* Identificación de términos aparecidos en la entrevista.
+* Identificación de las relaciones entre términos.
+* Crear glosario de términos.
+* Crear relaciones entre términos.
+* Resumen del conocimiento adquirido.
+* Identificación de reglas.
+Resultados del análisis:
+5.1.1 Identificación de términos aparecidos en la entrevista.
+Informe del centro escolar
+	Causas del absentismo
+	Colaboración familiar
+	Situación económica
+	Familia extensa y biológica
+	Red de iguales
+	Salud mental
+	Salud física
+	Intensidad del absentismo
+	Faltas injustificadas
+	Baja intensidad
+	Media intensidad
+	Alta intensidad
+	Etapa evolutiva
+	Reincidencia
+	Núcleo familiar
+	Fiscalía de menores
+	SISO
+	Vulnerabilidad
+	Servicios sociales
+	Educador social
+	Trabajadora social
+	Orientadores
+	Jefatura de estudios
+	Dirección
+	ETI
+	Protección de menores
+	Diagrama
+	Senda
+	Plan de intervención
+	5.1.2 Identificación de las relaciones entre términos.
+* El informe del centro es la puerta de entrada del caso y contiene causas e indicadores iniciales.
+* La intensidad del absentismo se relaciona con el porcentaje de faltas injustificadas.
+* La colaboración familiar condiciona la continuidad de la intervención y la posible derivación.
+* La herramienta SISO se vincula con la detección de vulnerabilidad.
+* Los profesionales del centro y de servicios sociales forman una red de coordinación inicial.
+* El ETI participa cuando el caso requiere una valoración más profunda o derivación.
+5.1.3 Resumen del conocimiento adquirido.
+* El proceso de valoración inicial comienza con la lectura del informe emitido por el centro educativo.
+* El experto no valora solo el número de faltas, sino también el contexto familiar, social y personal del menor.
+* Los niveles de intensidad del absentismo están protocolizados y se definen por porcentaje de faltas injustificadas.
+* La colaboración de la familia es un factor decisivo en la evolución del caso.
+* La vulnerabilidad no se deja a una impresión subjetiva, sino que se apoya en la herramienta SISO.
+* Existe una lógica de trabajo en red entre servicios sociales, centro educativo y recursos externos.
+5.1.4 Identificación de reglas.
+* Si el centro remite informe completo, entonces puede iniciarse la valoración inicial del caso.
+* Si la colaboración familiar es nula y persiste el absentismo, entonces se valora derivación a instancias superiores.
+* Si el porcentaje de faltas injustificadas encaja en los umbrales del protocolo, entonces se clasifica la intensidad del absentismo.
+* Si la edad del menor es temprana dentro del tramo 6-16 años, entonces conviene intervenir antes.
+Tiempo de análisis: 3 horas
+Recursos empleados: Registro de la entrevista, notas del ingeniero del conocimiento y revisión del protocolo remitido por el centro.
+Otros datos complementarios: Se identifica la herramienta SISO como recurso clave de valoración social y familiar.
+Comentarios: La primera entrevista permite fijar el vocabulario experto y el marco general del proceso.
+5.2 Entrevista Nº2
+
+
+Fecha
+	17 / 04 / 2026
+	Hora
+	16:00
+	Lugar
+	Domicilio habitual del experto
+	Asistentes
+	César Domínguez Notario y Maria José Notario Asensio
+	Tipo de entrevista
+	Estructurada
+	Soporte
+	Basada en la adquisición progresiva del conocimiento experto
+	Objetivo general
+	Profundizar en los criterios de clasificación y priorización utilizados por el profesional.
+	
+
+Objetivos específicos:
+* Detectar factores agravantes, atenuantes y señales de alarma.
+* Extraer reglas y pautas de actuación inicial para la futura base de conocimiento.
+
+
+Planteamiento de la sesión: batería de preguntas planteadas al experto.
+1. ¿Qué tipos de absentismo distingues en la práctica profesional?
+2. ¿Qué criterios utilizas para clasificar el nivel inicial de riesgo de un caso?
+3. ¿Qué combinación de indicadores te hace considerar que un caso es de riesgo bajo?
+4. ¿Qué combinación de indicadores te hace considerar que un caso es de riesgo medio?
+5. ¿Qué combinación de indicadores te hace considerar que un caso es de riesgo alto o urgente?
+6. ¿Qué importancia tiene cada uno de estos factores en la valoración inicial: número de faltas, frecuencia, reincidencia, respuesta familiar, coordinación con el centro, antecedentes de intervención e indicadores de vulnerabilidad?
+7. ¿Hay algún indicador que por sí solo pueda hacer subir mucho el nivel de riesgo?
+8. ¿Qué situaciones consideras señales de alarma inmediata?
+9. ¿Cómo valoras un caso en el que hay muchas faltas pero la familia colabora activamente?
+10. ¿Cómo valoras un caso con pocas faltas todavía, pero con fuerte conflicto familiar o vulnerabilidad social?
+11. ¿Cómo influye que el centro educativo haya intervenido ya o no haya intervenido todavía?
+12. ¿Qué diferencia haces entre falta de asistencia, retrasos reiterados, absentismo intermitente y abandono progresivo?
+13. ¿Cuándo consideras suficiente una actuación de seguimiento inicial y cuándo recomiendas derivación a otros recursos?
+14. ¿Qué datos mínimos deben estar confirmados antes de emitir una recomendación inicial?
+15. ¿Qué haces cuando falta información o la información es contradictoria entre familia, centro y menor?
+
+
+Resultados de la sesión:
+1. Se distinguen absentismo de alta, media y baja intensidad, asociados a 75 %, 50 % y 25 % de faltas injustificadas.
+2. El criterio central de clasificación se apoya en la puntuación SISO y en la información del protocolo remitido por el centro.
+3. Los indicadores concretos de intensidad y gravedad vienen marcados por el protocolo escolar y por la valoración social inicial.
+4. El riesgo medio también se apoya en el protocolo y en la combinación de intensidad con contexto social.
+5. El riesgo alto o urgente aparece cuando, además de la intensidad, concurren vulnerabilidad elevada o señales de desprotección.
+6. Todos los factores son importantes, pero el orden de relevancia de mayor a menor es: indicadores de vulnerabilidad, respuesta familiar, antecedentes de intervención, coordinación con el centro, frecuencia, reincidencia y número de faltas.
+7. La desprotección del menor puede elevar por sí sola el nivel de riesgo.
+8. Las alarmas inmediatas son la no cooperación familiar y cualquier indicador de desprotección.
+9. Si la familia colabora, se sigue interviniendo aunque el protocolo marque tiempos poco realistas. Suele mantenerse un margen de trabajo de hasta seis meses antes de proponer paso a protección.
+10. Aunque haya pocas faltas, si existe conflicto familiar fuerte o vulnerabilidad social se interviene desde prevención para evitar desprotección futura.
+11. El experto no trabaja por protocolo ningún caso de absentismo si el centro escolar no ha intervenido antes.
+12. El orden de gravedad es: abandono progresivo, absentismo intermitente, faltas de asistencia y retrasos.
+13. Se deriva a otros recursos cuando, tras intervenciones reiteradas con la familia, los resultados no son adecuados y las faltas persisten.
+14. Debe existir un tiempo razonable de intervención previa, alrededor de tres meses de media.
+15. Cuando la información es contradictoria, el profesional la contrasta con el referente del centro, otras entidades o la familia.
+
+
+Plan de análisis:
+* Identificación de términos aparecidos en la entrevista.
+* Identificación de las relaciones entre términos.
+* Crear glosario de términos.
+* Crear relaciones entre términos.
+* Resumen del conocimiento adquirido.
+* Identificación de reglas.
+
+
+Resultados del análisis:
+5.2.1 Identificación de términos aparecidos en la entrevista.
+SISO
+	Riesgo bajo
+	Riesgo medio
+	Riesgo alto
+	Urgencia
+	Desprotección
+	Prevención
+	Intervención previa del centro
+	Indicadores de vulnerabilidad
+	Antecedentes de intervención
+	Coordinación con el centro
+	No cooperación familiar
+	Abandono progresivo
+	Absentismo intermitente
+	Faltas de asistencia
+	Retrasos
+	Protección
+	Contraste de información
+	Tiempo razonable de intervención
+	Derivación
+	5.2.2 Identificación de las relaciones entre términos.
+* La intensidad del absentismo se cruza con la vulnerabilidad para determinar el nivel de riesgo.
+* El SISO funciona como indicador fuerte de gravedad social y familiar.
+* La desprotección y la no cooperación familiar actúan como disparadores de alarma.
+* El centro educativo debe haber intervenido antes de activar la vía protocolizada de servicios sociales.
+* Las categorías de conducta escolar se ordenan jerárquicamente por gravedad.
+* La persistencia de faltas a pesar de intervención previa justifica derivación.
+5.2.3 Resumen del conocimiento adquirido.
+* El experto prioriza la protección del menor y el contexto de vulnerabilidad por encima del mero recuento de faltas.
+* El sistema no debería activar una recomendación plena si el centro no ha realizado actuación previa.
+* Hay un criterio temporal mínimo de intervención antes de escalar el caso.
+* El abandono progresivo y la desprotección concentran la mayor gravedad.
+* El sistema debe ser capaz de distinguir entre seguimiento preventivo, intervención prolongada y derivación.
+5.2.4 Identificación de reglas.
+* Si hay desprotección del menor, entonces el nivel de riesgo sube de forma inmediata.
+* Si la familia coopera, entonces puede mantenerse la intervención aunque existan muchas faltas.
+* Si hay pocas faltas pero vulnerabilidad elevada, entonces se recomienda intervención preventiva.
+* Si el centro no ha intervenido previamente, entonces no debe activarse el protocolo completo de absentismo.
+* Si persisten las faltas tras un tiempo razonable de intervención, entonces se valora derivación a otros recursos.
+Tiempo de análisis: 4 horas
+Recursos empleados: Registro de la entrevista, notas de análisis comparativo y borrador de categorías de riesgo.
+Otros datos complementarios: Se refuerza la idea de que la protección del menor y la vulnerabilidad pesan más que el número aislado de faltas.
+Comentarios: La entrevista concreta condiciones de decisión y priorización, y aporta criterios útiles para formalizar reglas.
+5.3 Entrevista Nº3
+Fecha
+	19 / 04 / 2026
+	Hora
+	16:00
+	Lugar
+	Domicilio habitual del experto
+	Asistentes
+	César Domínguez Notario y Maria José Notario Asensio
+	Tipo de entrevista
+	Estructurada
+	Soporte
+	Basada en la adquisición progresiva del conocimiento experto
+	Objetivo general
+	Validar el conocimiento adquirido mediante casos prácticos.
+	
+
+Objetivos específicos:
+* Formalizar reglas, excepciones y prioridades de decisión.
+* Delimitar los límites del sistema experto y los supuestos de revisión manual.
+
+
+Planteamiento de la sesión: batería de preguntas planteadas al experto.
+1. Voy a proponerte varios casos y me gustaría que me dijeras cómo los clasificarías y qué actuación inicial recomendarías.
+2. Caso 1: adolescente con faltas esporádicas, sin antecedentes, familia colaboradora y centro ya haciendo seguimiento. ¿Cómo lo valorarías y qué recomendarías?
+3. Caso 2: adolescente con faltas frecuentes, reincidencia del curso anterior, familia poco colaboradora y escasa coordinación previa. ¿Cómo lo valorarías y qué recomendarías?
+4. Caso 3: adolescente con faltas todavía no muy numerosas pero con claros indicadores de vulnerabilidad social o familiar. ¿Cómo cambia eso la recomendación?
+5. Caso 4: adolescente con asistencia irregular, versiones contradictorias entre centro y familia, y datos incompletos. ¿Qué harías primero?
+6. ¿Qué reglas dirías que usas casi siempre en tu valoración inicial, aunque sea de forma implícita?
+7. Si dos indicadores apuntan en direcciones distintas, ¿cuál suele tener más peso?
+8. ¿Existen excepciones frecuentes a las reglas generales?
+9. ¿Qué errores cometería un sistema si solo se fijara en el número de faltas?
+10. ¿Qué situaciones deberían quedar fuera del sistema y obligar a revisión directa del profesional?
+11. ¿En qué casos el sistema debería recomendar necesidad de ampliar información en lugar de clasificar directamente?
+12. ¿Qué explicación mínima debería mostrar el sistema para que la recomendación sea útil y aceptable para el profesional?
+13. ¿Qué recomendaciones iniciales concretas debería poder emitir el sistema?
+14. ¿Cómo comprobarías tú que una recomendación del sistema tiene sentido en la práctica?
+15. ¿Qué casos usarías para validar que el sistema funciona bien antes de implantarlo?
+
+
+Resultados de la sesión:
+1. Se plantea la validación del conocimiento mediante casos prácticos.
+2. El caso 1 se valora como seguimiento, pero no como absentismo consolidado.
+3. El caso 2 sería caso de intervención en función de la puntuación SISO; con más de 58 puntos pasaría a intervenir el equipo del experto.
+4. En el caso 3, si la puntuación SISO es menor de 58, pasaría al equipo de familia, ajeno al experto; si supera ese valor, requeriría intervención especializada.
+5. Ante datos incompletos o contradictorios se contacta con el equipo de atención primaria para que evalúe y decida si el caso pasa al equipo de familia o al ETI.
+6. El experto valora primero si conoce antecedentes de la familia, después la coordinación con el centro y, si procede, se elabora un plan de intervención.
+7. Cuando dos indicadores chocan, pesa más el que afecte negativamente a la protección del menor.
+8. Sí. Las excepciones son frecuentes y siempre se justifican por el interés superior del menor.
+9. El sistema sería superficial y no resolvería de forma estable el problema educativo del menor si solo atendiera al número de faltas.
+10. Quedan fuera del sistema los casos con salud mental grave, psicopatología, conductas disruptivas severas, consumo de sustancias o indicios de trastorno mental.
+11. El sistema debe pedir ampliar información cuando confluyen muchos factores graves familiares, sociales y personales al mismo tiempo.
+12. Debe mostrar una valoración del caso y pautas orientativas de intervención.
+13. Las recomendaciones iniciales deben guiar la forma de intervenir y de motivar al menor para que permanezca en el sistema educativo.
+14. La validez práctica se comprueba mediante seguimiento y observación de resultados.
+15. Los casos más graves son los más útiles para validar el comportamiento del sistema.
+
+
+Plan de análisis:
+16. Identificación de términos aparecidos en la entrevista.
+17. Identificación de las relaciones entre términos.
+18. Crear glosario de términos.
+19. Crear relaciones entre términos.
+20. Resumen del conocimiento adquirido.
+21. Identificación de reglas.
+
+
+Resultados del análisis:
+5.3.1 Identificación de términos aparecidos en la entrevista.
+Seguimiento
+	Caso práctico
+	Puntuación SISO > 58
+	Equipo de familia
+	Equipo de atención primaria
+	ETI
+	Plan de intervención
+	Interés superior del menor
+	Revisión manual
+	Salud mental grave
+	Psicopatología
+	Conductas disruptivas
+	Consumo de sustancias
+	Ampliar información
+	Pautas de intervención
+	Validación del sistema
+	5.3.2 Identificación de las relaciones entre términos.
+* La puntuación SISO se utiliza como umbral orientativo para decidir el equipo de intervención.
+* Los antecedentes y la coordinación con el centro son pasos previos a la elaboración del plan de intervención.
+* La protección del menor prevalece cuando los indicadores son contradictorios.
+* Los casos con salud mental grave o consumo de sustancias quedan fuera del sistema experto y exigen revisión manual.
+* La recomendación del sistema debe acompañarse de pautas explicativas para resultar útil.
+5.3.3 Resumen del conocimiento adquirido.
+* El conocimiento se valida con casos y umbrales orientativos, no solo con definiciones abstractas.
+* El sistema debe contemplar la salida 'seguimiento' para situaciones leves o no consolidadas.
+* El sistema necesita una salida específica de revisión manual o ampliación de información.
+* El interés superior del menor es el principio que gobierna las excepciones.
+* El valor del sistema se mide por su utilidad práctica y por su capacidad de orientar la intervención.
+5.3.4 Identificación de reglas.
+* Si el caso presenta faltas esporádicas, sin antecedentes y con familia colaboradora, entonces la salida recomendada es seguimiento.
+* Si la puntuación SISO supera 58, entonces el caso pasa a intervención del equipo especializado.
+* Si existen datos contradictorios o insuficientes, entonces la recomendación es ampliar información y solicitar evaluación adicional.
+* Si aparecen salud mental grave, consumo o psicopatología, entonces el caso queda fuera del sistema y requiere revisión manual.
+* Si dos indicadores se contradicen, entonces prevalece el que proteja mejor al menor.
+Tiempo de análisis: 3 horas
+Recursos empleados: Registro de la entrevista, contraste con notas de entrevistas previas y elaboración de casos de prueba.
+Otros datos complementarios: Aparece un umbral orientativo de SISO > 58 y se delimitan supuestos que deben quedar fuera del sistema experto.
+Comentarios: La tercera entrevista transforma el conocimiento en reglas, excepciones, límites y criterios de validación.
+________________
+
+
+6. Conceptualización
+Una vez adquirida la información a partir de las entrevistas, se hace explícito el conocimiento mediante la conceptualización. Esta fase organiza los términos, entidades, relaciones, tareas y secuencias de razonamiento que deberá manejar el sistema experto.
+6.1 Glosario de términos
+Término
+	Descripción
+	Absentismo escolar
+	Inasistencia injustificada y reiterada del menor al centro educativo dentro de los umbrales fijados por el protocolo.
+	Baja intensidad
+	Nivel de absentismo asociado aproximadamente al 25 % de faltas injustificadas.
+	Media intensidad
+	Nivel de absentismo asociado aproximadamente al 50 % de faltas injustificadas.
+	Alta intensidad
+	Nivel de absentismo asociado aproximadamente al 75 % de faltas injustificadas.
+	SISO
+	Herramienta de valoración social que puntúa la situación de vulnerabilidad familiar en una escala de 0 a 100.
+	Vulnerabilidad
+	Conjunto de factores sociales, económicos, familiares y personales que agravan el riesgo del caso.
+	Desprotección
+	Situación en la que no están cubiertas las necesidades y derechos del menor.
+	Colaboración familiar
+	Grado en que la familia acepta, mantiene o rechaza el trabajo con el profesional y el centro.
+	ETI
+	Equipo técnico de inclusión o equipo especializado que interviene en casos de mayor complejidad.
+	Equipo de familia
+	Equipo de intervención distinto del ETI que asume determinados casos según valoración.
+	Seguimiento
+	Actuación de control, observación y apoyo cuando el caso no se considera absentismo consolidado.
+	Derivación
+	Paso del caso a otros recursos o instancias cuando la intervención ordinaria no resulta suficiente.
+	Revisión manual
+	Necesidad de valoración directa por un profesional en situaciones no adecuadas para automatización.
+	Interés superior del menor
+	Principio que prioriza la protección del menor por encima de criterios procedimentales rígidos.
+	Abandono progresivo
+	Proceso de desconexión creciente del sistema educativo, considerado la forma más grave dentro de la escala descrita.
+	Absentismo intermitente
+	Patrón irregular pero repetido de ausencias que no llega a abandono total.
+	Informe del centro
+	Documento remitido por el centro escolar con las faltas, causas detectadas y actuaciones previas.
+	Plan de intervención
+	Conjunto de actuaciones acordadas para trabajar con el menor, la familia y el entorno escolar.
+	6.2 Diccionario de conceptos
+A continuación se presenta una tabla objeto-atributo-valor con las entidades de más alto nivel que deberá manejar el sistema experto.
+Objeto
+	Atributo
+	Valor / dominio
+	CASO
+	Intensidad
+	Baja / Media / Alta
+	CASO
+	Tipo de conducta
+	Retrasos / Faltas / Absentismo intermitente / Abandono progresivo
+	CASO
+	Estado de información
+	Completa / Incompleta / Contradictoria
+	MENOR
+	Edad
+	[6, 16] años
+	MENOR
+	Situación personal
+	Sin indicadores / Salud mental / Conducta disruptiva / Consumo
+	FAMILIA
+	Colaboración
+	Alta / Media / Baja / Nula
+	FAMILIA
+	Vulnerabilidad SISO
+	[0,100]
+	FAMILIA
+	Antecedentes
+	Sí / No
+	CENTRO EDUCATIVO
+	Intervención previa
+	Sí / No
+	CENTRO EDUCATIVO
+	Informe remitido
+	Sí / No
+	RIESGO
+	Nivel
+	Seguimiento / Preventivo / Alto / Revisión manual
+	SALIDA
+	Recomendación inicial
+	Seguimiento / Intervención ETI / Equipo de familia / Derivación / Ampliar información
+	SISTEMA
+	Explicación
+	Resumen de factores activados y pauta orientativa
+	6.3 Modelo de proceso y control
+El sistema experto se organiza en tres tareas principales: recepción y verificación del caso, valoración de indicadores y decisión inicial con propuesta de actuación.
+  
+
+
+
+Tarea
+	Meta
+	Entradas
+	Salidas
+	Control
+	T1
+	Recibir y verificar el caso
+	Informe del centro, existencia de intervención previa
+	Caso aceptado / solicitud de más información
+	Comprobación humana del protocolo
+	T2
+	Valorar gravedad y contexto
+	Intensidad, SISO, colaboración familiar, antecedentes, desprotección
+	Nivel de riesgo preliminar
+	Contraste con profesional y entidades
+	T3
+	Emitir recomendación inicial
+	Riesgo preliminar y límites del sistema
+	Seguimiento, intervención ETI, equipo de familia, derivación o revisión manual
+	Supervisión final del profesional
+	6.4 Mapa de conocimientos
+El mapa de conocimientos recoge la secuencia de razonamiento que deberá seguir el sistema experto. Se parte del informe del centro, se verifica si existe actuación previa, se valora la intensidad y el contexto familiar, y finalmente se genera una salida recomendada.
+  
+
+Descripción textual del mapa:
+* Recepción del caso mediante informe del centro o comunicación inicial.
+* Verificación de actuación previa del centro educativo.
+* Si no existe intervención previa, el sistema recomienda solicitar actuación inicial o ampliar información.
+* Si existe intervención previa, se valora intensidad del absentismo, puntuación SISO, colaboración familiar, antecedentes y posible desprotección.
+* Si el riesgo es bajo y no hay indicadores críticos, la salida propuesta es seguimiento o intervención preventiva.
+* Si la vulnerabilidad es alta o SISO supera el umbral orientativo, la salida se orienta a intervención especializada.
+* Si aparecen salud mental grave, consumo, psicopatología o conflicto complejo no formalizable, el sistema deriva a revisión manual.
+6.5 Reglas de producción preliminares
+* SI el centro no ha intervenido previamente ENTONCES recomendar ampliar información o actuación inicial del centro.
+* SI el caso presenta faltas esporádicas, no hay antecedentes y la familia colabora ENTONCES clasificar como seguimiento.
+* SI la familia no coopera y persisten las faltas tras intervención razonable ENTONCES valorar derivación.
+* SI existen indicadores de desprotección ENTONCES elevar inmediatamente el nivel de riesgo.
+* SI la puntuación SISO es superior a 58 ENTONCES orientar el caso a intervención del equipo especializado.
+* SI hay pocas faltas pero vulnerabilidad elevada ENTONCES recomendar intervención preventiva.
+* SI aparecen salud mental grave, psicopatología o consumo de sustancias ENTONCES excluir del sistema y solicitar revisión manual.
+* SI la información es contradictoria o insuficiente ENTONCES recomendar ampliación de información antes de clasificar.
+6. Conclusión
+La adquisición del conocimiento realizada mediante tres entrevistas progresivas ha permitido identificar el vocabulario experto, los indicadores principales de decisión, las relaciones entre factores, las reglas iniciales y los límites del sistema. La fase de conceptualización traduce ese conocimiento en estructuras útiles para la futura representación formal: glosario, diccionario de conceptos, modelo de proceso y control y mapa de conocimientos.
+El sistema experto resultante deberá actuar como herramienta de apoyo a la decisión inicial, nunca como sustituto del profesional, y mantener salidas explícitas de revisión manual y ampliación de información cuando el caso supere los límites del dominio modelado.
