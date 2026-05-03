@@ -1,2 +1,2 @@
 streamlit==1.31.0
-clipspy==1.0.33
+clipspy==1.0.3
