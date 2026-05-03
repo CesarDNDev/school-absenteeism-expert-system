@@ -1,6 +1,7 @@
 """
 Sistema Experto para Absentismo Escolar
-Basado en CLIPS (clipspy)
+Basado en CLIPS (clipspy) usando VECTORES ORDENADOS
+Sin usar deftemplate - Solo hechos ordenados
 Autor: César Domínguez Notario
 """
 
@@ -11,69 +12,54 @@ from typing import Dict, List
 class SistemaAbsentismoEscolar:
     """
     Motor de inferencia CLIPS para valoración inicial de casos de absentismo escolar.
-    Basado en las reglas extraídas de entrevistas con expertos.
+    Implementación con VECTORES ORDENADOS (ordered facts) en lugar de deftemplates.
     """
     
     def __init__(self):
         self.env = clips.Environment()
-        self.recomendacion = None
-        self.nivel_riesgo = None
-        self.explicacion = []
-        self.factores_activados = []
-        self._definir_templates()
         self._definir_reglas()
     
-    def _definir_templates(self):
-        """Define los templates (plantillas) de hechos en CLIPS"""
-        
-        # Template para el caso
-        self.env.build("""
-            (deftemplate caso
-                (slot intervencion-previa-centro (type SYMBOL))
-                (slot intensidad-absentismo (type SYMBOL))
-                (slot siso (type INTEGER))
-                (slot colaboracion-familiar (type SYMBOL))
-                (slot antecedentes (type SYMBOL))
-                (slot desproteccion (type SYMBOL))
-                (slot situacion-personal (type SYMBOL))
-                (slot estado-informacion (type SYMBOL))
-            )
-        """)
-        
-        # Template para resultados
-        self.env.build("""
-            (deftemplate resultado
-                (slot recomendacion (type STRING))
-                (slot nivel-riesgo (type STRING))
-            )
-        """)
-    
     def _definir_reglas(self):
-        """Define las reglas de producción del sistema experto"""
+        """
+        Define las reglas de producción del sistema experto.
+        Los hechos son vectores ordenados: (caso intervencion intensidad siso colaboracion antecedentes desproteccion situacion estado)
+        Posiciones del vector:
+        0: "caso" (identificador)
+        1: intervencion-previa-centro (si/no)
+        2: intensidad-absentismo (baja/media/alta)
+        3: siso (número 0-100)
+        4: colaboracion-familiar (nula/baja/media/alta)
+        5: antecedentes (si/no)
+        6: desproteccion (si/no)
+        7: situacion-personal (sin_indicadores/salud_mental_grave/psicopatologia/consumo_sustancias/conducta_disruptiva)
+        8: estado-informacion (completa/incompleta/contradictoria)
+        """
         
-        # REGLA 1: Sin intervención previa del centro
+        # REGLA 1: Sin intervención previa del centro (PRIORIDAD MÁXIMA)
         self.env.build("""
             (defrule sin-intervencion-previa
-                (caso (intervencion-previa-centro no))
+                (declare (salience 100))
+                (caso ?interv ?intens ?siso ?colab ?ant ?desp ?sit ?est)
+                (test (eq ?interv no))
                 =>
-                (assert (resultado 
-                    (recomendacion "Ampliar información")
-                    (nivel-riesgo "No valorable")))
+                (assert (resultado "Ampliar información" "No valorable"))
                 (assert (explicacion "El centro educativo NO ha realizado intervención previa"))
                 (assert (explicacion "RECOMENDACIÓN: Solicitar al centro que realice actuación inicial"))
                 (assert (factor "Sin intervención previa del centro"))
             )
         """)
         
-        # REGLA 2: Casos que requieren revisión manual (salud mental grave)
+        # REGLA 2: Casos que requieren revisión manual (PRIORIDAD 90)
         self.env.build("""
-            (defrule revision-manual-salud-mental
-                (caso (intervencion-previa-centro si)
-                      (situacion-personal salud_mental_grave|psicopatologia|consumo_sustancias))
+            (defrule revision-manual-compleja
+                (declare (salience 90))
+                (caso si ?intens ?siso ?colab ?ant ?desp ?sit ?est)
+                (test (or (eq ?sit salud_mental_grave) 
+                          (eq ?sit psicopatologia) 
+                          (eq ?sit consumo_sustancias)))
+                (not (resultado ?rec ?nivel))
                 =>
-                (assert (resultado 
-                    (recomendacion "Revisión manual obligatoria")
-                    (nivel-riesgo "Requiere valoración especializada")))
+                (assert (resultado "Revisión manual obligatoria" "Requiere valoración especializada"))
                 (assert (explicacion "CASO COMPLEJO: Detectados indicadores que requieren valoración especializada"))
                 (assert (explicacion "Este caso queda FUERA del sistema experto automático"))
                 (assert (explicacion "RECOMENDACIÓN: Derivar a revisión manual por profesional especializado"))
@@ -81,48 +67,42 @@ class SistemaAbsentismoEscolar:
             )
         """)
         
-        # REGLA 3: Información contradictoria
+        # REGLA 3: Información contradictoria (PRIORIDAD 85)
         self.env.build("""
             (defrule informacion-contradictoria
-                (caso (intervencion-previa-centro si)
-                      (estado-informacion contradictoria))
+                (declare (salience 85))
+                (caso si ?intens ?siso ?colab ?ant ?desp ?sit contradictoria)
+                (not (resultado ?rec ?nivel))
                 =>
-                (assert (resultado 
-                    (recomendacion "Ampliar información")
-                    (nivel-riesgo "No valorable")))
+                (assert (resultado "Ampliar información" "No valorable"))
                 (assert (explicacion "La información disponible es CONTRADICTORIA entre fuentes"))
                 (assert (explicacion "RECOMENDACIÓN: Contactar con equipo de atención primaria"))
                 (assert (factor "Información contradictoria"))
             )
         """)
         
-        # REGLA 4: Información incompleta
+        # REGLA 4: Información incompleta (PRIORIDAD 80)
         self.env.build("""
             (defrule informacion-incompleta
-                (caso (intervencion-previa-centro si)
-                      (estado-informacion incompleta))
+                (declare (salience 80))
+                (caso si ?intens ?siso ?colab ?ant ?desp ?sit incompleta)
+                (not (resultado ?rec ?nivel))
                 =>
-                (assert (resultado 
-                    (recomendacion "Ampliar información")
-                    (nivel-riesgo "No valorable")))
+                (assert (resultado "Ampliar información" "No valorable"))
                 (assert (explicacion "La información disponible es INCOMPLETA"))
-                (assert (explicacion "RECOMENDACIÓN: Solicitar datos adicionales al centro educativo"))
+                (assert (explicacion "RECOMENDACIÓN: Solicitar datos adicionales al centro educativo y/o familia"))
                 (assert (factor "Información incompleta"))
             )
         """)
         
-        # REGLA 5: Desprotección detectada (máxima prioridad)
+        # REGLA 5: Desprotección del menor (PRIORIDAD 100)
         self.env.build("""
-            (defrule desproteccion-detectada
+            (defrule desproteccion-menor
                 (declare (salience 100))
-                (caso (intervencion-previa-centro si)
-                      (desproteccion si)
-                      (estado-informacion completa))
-                (not (caso (situacion-personal salud_mental_grave|psicopatologia|consumo_sustancias)))
+                (caso si ?intens ?siso ?colab ?ant si ?sit completa)
+                (not (resultado ?rec ?nivel))
                 =>
-                (assert (resultado 
-                    (recomendacion "Intervención ETI urgente")
-                    (nivel-riesgo "Alto - Desprotección")))
+                (assert (resultado "Intervención ETI urgente" "Alto - Desprotección"))
                 (assert (explicacion "ALERTA: Detectados INDICADORES DE DESPROTECCIÓN del menor"))
                 (assert (explicacion "El nivel de riesgo se eleva de forma INMEDIATA"))
                 (assert (explicacion "RECOMENDACIÓN: Intervención urgente del Equipo Técnico de Inclusión (ETI)"))
@@ -130,20 +110,16 @@ class SistemaAbsentismoEscolar:
             )
         """)
         
-        # REGLA 6: Seguimiento simple (riesgo bajo)
+        # REGLA 6: Seguimiento (Riesgo bajo) (PRIORIDAD 10)
         self.env.build("""
-            (defrule seguimiento-simple
-                (caso (intervencion-previa-centro si)
-                      (intensidad-absentismo baja)
-                      (colaboracion-familiar alta|media)
-                      (antecedentes no)
-                      (desproteccion no)
-                      (estado-informacion completa))
-                (not (caso (situacion-personal salud_mental_grave|psicopatologia|consumo_sustancias)))
+            (defrule seguimiento-riesgo-bajo
+                (declare (salience 10))
+                (caso si baja ?siso ?colab no no ?sit completa)
+                (test (or (eq ?colab alta) (eq ?colab media)))
+                (test (<= ?siso 58))
+                (not (resultado ?rec ?nivel))
                 =>
-                (assert (resultado 
-                    (recomendacion "Seguimiento")
-                    (nivel-riesgo "Bajo")))
+                (assert (resultado "Seguimiento" "Bajo"))
                 (assert (explicacion "Caso de RIESGO BAJO: Faltas esporádicas sin consolidación"))
                 (assert (explicacion "La familia muestra colaboración adecuada"))
                 (assert (explicacion "RECOMENDACIÓN: Mantener seguimiento ordinario desde el centro educativo"))
@@ -153,19 +129,16 @@ class SistemaAbsentismoEscolar:
             )
         """)
         
-        # REGLA 7: Intervención preventiva (SISO alto, pocas faltas)
+        # REGLA 7: Intervención preventiva (SISO alto, pocas faltas) (PRIORIDAD 20)
         self.env.build("""
-            (defrule prevencion-vulnerabilidad-alta
-                (caso (intervencion-previa-centro si)
-                      (intensidad-absentismo baja)
-                      (siso ?s&:(> ?s 58))
-                      (desproteccion no)
-                      (estado-informacion completa))
-                (not (caso (situacion-personal salud_mental_grave|psicopatologia|consumo_sustancias)))
+            (defrule intervencion-preventiva
+                (declare (salience 20))
+                (caso si baja ?siso ?colab no no ?sit completa)
+                (test (or (eq ?colab alta) (eq ?colab media)))
+                (test (> ?siso 58))
+                (not (resultado ?rec ?nivel))
                 =>
-                (assert (resultado 
-                    (recomendacion "Intervención ETI (preventiva)")
-                    (nivel-riesgo "Preventivo - Vulnerabilidad alta")))
+                (assert (resultado "Intervención ETI (preventiva)" "Preventivo - Vulnerabilidad alta"))
                 (assert (explicacion "Aunque las faltas son POCAS, existe VULNERABILIDAD SOCIAL ELEVADA (SISO > 58)"))
                 (assert (explicacion "Se recomienda INTERVENCIÓN PREVENTIVA para evitar desprotección futura"))
                 (assert (explicacion "RECOMENDACIÓN: Intervención del ETI con enfoque preventivo"))
@@ -174,19 +147,16 @@ class SistemaAbsentismoEscolar:
             )
         """)
         
-        # REGLA 8: Intervención ETI especializada (SISO alto + absentismo consolidado)
+        # REGLA 8: Intervención ETI especializada (PRIORIDAD 30)
         self.env.build("""
             (defrule intervencion-eti-especializada
-                (caso (intervencion-previa-centro si)
-                      (intensidad-absentismo media|alta)
-                      (siso ?s&:(> ?s 58))
-                      (desproteccion no)
-                      (estado-informacion completa))
-                (not (caso (situacion-personal salud_mental_grave|psicopatologia|consumo_sustancias)))
+                (declare (salience 30))
+                (caso si ?intens ?siso ?colab ?ant no ?sit completa)
+                (test (or (eq ?intens media) (eq ?intens alta)))
+                (test (> ?siso 58))
+                (not (resultado ?rec ?nivel))
                 =>
-                (assert (resultado 
-                    (recomendacion "Intervención ETI")
-                    (nivel-riesgo "Medio-Alto")))
+                (assert (resultado "Intervención ETI" "Medio-Alto"))
                 (assert (explicacion "RIESGO MEDIO-ALTO: Absentismo consolidado + Vulnerabilidad elevada (SISO > 58)"))
                 (assert (explicacion "RECOMENDACIÓN: Intervención del Equipo Técnico de Inclusión (ETI)"))
                 (assert (factor "Absentismo consolidado"))
@@ -194,20 +164,16 @@ class SistemaAbsentismoEscolar:
             )
         """)
         
-        # REGLA 9: No cooperación familiar (riesgo alto)
+        # REGLA 9: No cooperación familiar (PRIORIDAD 40)
         self.env.build("""
             (defrule no-cooperacion-familiar
-                (caso (intervencion-previa-centro si)
-                      (intensidad-absentismo media|alta)
-                      (siso ?s&:(<= ?s 58))
-                      (colaboracion-familiar baja|nula)
-                      (desproteccion no)
-                      (estado-informacion completa))
-                (not (caso (situacion-personal salud_mental_grave|psicopatologia|consumo_sustancias)))
+                (declare (salience 40))
+                (caso si ?intens ?siso ?colab ?ant no ?sit completa)
+                (test (or (eq ?intens media) (eq ?intens alta)))
+                (test (or (eq ?colab baja) (eq ?colab nula)))
+                (not (resultado ?rec ?nivel))
                 =>
-                (assert (resultado 
-                    (recomendacion "Intervención ETI con valoración de derivación")
-                    (nivel-riesgo "Alto - No cooperación familiar")))
+                (assert (resultado "Intervención ETI con valoración de derivación" "Alto - No cooperación familiar"))
                 (assert (explicacion "RIESGO ALTO: Absentismo consolidado + NO COOPERACIÓN FAMILIAR"))
                 (assert (explicacion "RECOMENDACIÓN: Intervención ETI. Si persisten faltas tras 3-6 meses, valorar derivación a Fiscalía"))
                 (assert (factor "No cooperación familiar"))
@@ -215,20 +181,17 @@ class SistemaAbsentismoEscolar:
             )
         """)
         
-        # REGLA 10: Equipo de familia (SISO moderado, familia colabora)
+        # REGLA 10: Equipo de familia (PRIORIDAD 25)
         self.env.build("""
             (defrule equipo-familia
-                (caso (intervencion-previa-centro si)
-                      (intensidad-absentismo media|alta)
-                      (siso ?s&:(<= ?s 58))
-                      (colaboracion-familiar alta|media)
-                      (desproteccion no)
-                      (estado-informacion completa))
-                (not (caso (situacion-personal salud_mental_grave|psicopatologia|consumo_sustancias)))
+                (declare (salience 25))
+                (caso si ?intens ?siso ?colab ?ant no ?sit completa)
+                (test (or (eq ?intens media) (eq ?intens alta)))
+                (test (<= ?siso 58))
+                (test (or (eq ?colab alta) (eq ?colab media)))
+                (not (resultado ?rec ?nivel))
                 =>
-                (assert (resultado 
-                    (recomendacion "Equipo de familia")
-                    (nivel-riesgo "Medio")))
+                (assert (resultado "Equipo de familia" "Medio"))
                 (assert (explicacion "RIESGO MEDIO: Absentismo consolidado pero vulnerabilidad moderada (SISO <= 58)"))
                 (assert (explicacion "La familia muestra disposición a colaborar"))
                 (assert (explicacion "RECOMENDACIÓN: Derivar a Equipo de Familia para intervención ordinaria"))
@@ -236,8 +199,21 @@ class SistemaAbsentismoEscolar:
                 (assert (factor "Familia colaboradora"))
             )
         """)
+        
+        # REGLA DEFAULT: Valoración individualizada (PRIORIDAD 0)
+        self.env.build("""
+            (defrule valoracion-individualizada
+                (declare (salience 0))
+                (caso si ?intens ?siso ?colab ?ant no ?sit completa)
+                (not (resultado ?rec ?nivel))
+                =>
+                (assert (resultado "Valoración individualizada" "Requiere análisis específico"))
+                (assert (explicacion "Este caso no coincide exactamente con los patrones predefinidos"))
+                (assert (explicacion "RECOMENDACIÓN: Realizar valoración individualizada por el equipo técnico"))
+            )
+        """)
     
-    def valorar_caso(self, 
+    def valorar_caso(self,
                      intervencion_previa_centro: str,
                      intensidad_absentismo: str,
                      siso: int,
@@ -247,7 +223,7 @@ class SistemaAbsentismoEscolar:
                      situacion_personal: str,
                      estado_informacion: str) -> Dict:
         """
-        Valora un caso de absentismo escolar usando el motor CLIPS
+        Valora un caso de absentismo escolar usando el motor CLIPS con vectores ordenados
         
         Returns:
             Dict con recomendación, nivel de riesgo, explicación y factores activados
@@ -256,22 +232,9 @@ class SistemaAbsentismoEscolar:
         # Resetear el entorno
         self.env.reset()
         
-        # Convertir guiones bajos a guiones para CLIPS (mantener formato original)
-        situacion_personal_clips = situacion_personal
-        
-        # Crear el hecho del caso
-        fact_string = f"""
-            (caso 
-                (intervencion-previa-centro {intervencion_previa_centro})
-                (intensidad-absentismo {intensidad_absentismo})
-                (siso {siso})
-                (colaboracion-familiar {colaboracion_familiar})
-                (antecedentes {antecedentes})
-                (desproteccion {desproteccion})
-                (situacion-personal {situacion_personal_clips})
-                (estado-informacion {estado_informacion})
-            )
-        """
+        # Crear el hecho como VECTOR ORDENADO
+        # Formato: (caso intervencion intensidad siso colaboracion antecedentes desproteccion situacion estado)
+        fact_string = f"(caso {intervencion_previa_centro} {intensidad_absentismo} {siso} {colaboracion_familiar} {antecedentes} {desproteccion} {situacion_personal} {estado_informacion})"
         
         self.env.assert_string(fact_string)
         
@@ -285,13 +248,24 @@ class SistemaAbsentismoEscolar:
         factores = []
         
         for fact in self.env.facts():
-            if fact.template.name == 'resultado':
-                recomendacion = fact['recomendacion']
-                nivel_riesgo = fact['nivel-riesgo']
-            elif fact.template.name == 'explicacion':
-                explicaciones.append(str(fact[0]))
-            elif fact.template.name == 'factor':
-                factores.append(str(fact[0]))
+            fact_str = str(fact)
+            
+            # Resultado: (resultado "recomendacion" "nivel-riesgo")
+            if fact_str.startswith("(resultado "):
+                parts = fact_str[11:-1].split('" "')
+                if len(parts) >= 2:
+                    recomendacion = parts[0].strip('"')
+                    nivel_riesgo = parts[1].strip('"')
+            
+            # Explicación: (explicacion "texto")
+            elif fact_str.startswith("(explicacion "):
+                explicacion_text = fact_str[13:-1].strip('"')
+                explicaciones.append(explicacion_text)
+            
+            # Factor: (factor "texto")
+            elif fact_str.startswith("(factor "):
+                factor_text = fact_str[8:-1].strip('"')
+                factores.append(factor_text)
         
         return {
             'recomendacion': recomendacion,

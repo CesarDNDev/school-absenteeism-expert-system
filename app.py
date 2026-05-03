@@ -9,7 +9,6 @@ from sistema_experto import valorar_caso
 
 st.set_page_config(
     page_title="Sistema Experto - Absentismo Escolar",
-    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
