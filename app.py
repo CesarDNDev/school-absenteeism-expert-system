@@ -8,12 +8,12 @@ from sistema_experto import valorar_caso
 
 st.set_page_config(
     page_title="Sistema Experto - Absentismo Escolar",
-    page_icon="🎓",
+    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-st.title("🎓 Sistema Experto de Absentismo Escolar")
+st.title("Sistema Experto de Absentismo Escolar")
 st.markdown("""
 **Sistema de apoyo a la decisión inicial ante casos de absentismo escolar en adolescentes**
 
@@ -24,7 +24,7 @@ del ámbito socioeducativo y utiliza un motor de inferencia para recomendar actu
 st.divider()
 
 with st.sidebar:
-    st.header("ℹ️ Información del Sistema")
+    st.header("Información del Sistema")
     st.markdown("""
     **Alcance:**
     - Valoración inicial de casos
@@ -43,7 +43,7 @@ with st.sidebar:
     
     st.divider()
     
-    with st.expander("📖 Glosario de términos"):
+    with st.expander("Glosario de términos"):
         st.markdown("""
         **SISO:** Herramienta de valoración social (0-100)  
         **ETI:** Equipo Técnico de Inclusión  
@@ -52,7 +52,7 @@ with st.sidebar:
         **Intensidad alta:** ~75% faltas injustificadas
         """)
 
-st.header("📋 Datos del Caso")
+st.header("Datos del Caso")
 
 col1, col2 = st.columns(2)
 
@@ -138,7 +138,7 @@ with col4:
 
 st.divider()
 
-if st.button("🔍 Analizar Caso", type="primary", use_container_width=True):
+if st.button("Analizar Caso", type="primary", use_container_width=True):
     with st.spinner("Ejecutando motor de inferencia..."):
         resultado = valorar_caso(
             intervencion_previa_centro=intervencion_previa,
@@ -151,9 +151,9 @@ if st.button("🔍 Analizar Caso", type="primary", use_container_width=True):
             estado_informacion=estado_info
         )
     
-    st.success("✅ Análisis completado")
+    st.success("Análisis completado")
     
-    st.header("📊 Resultados del Análisis")
+    st.header("Resultados del Análisis")
     
     col_res1, col_res2 = st.columns(2)
     
@@ -169,7 +169,7 @@ if st.button("🔍 Analizar Caso", type="primary", use_container_width=True):
             value=resultado['recomendacion']
         )
     
-    st.subheader("💡 Explicación del Sistema Experto")
+    st.subheader("Explicación del Sistema Experto")
     
     for i, linea in enumerate(resultado['explicacion'], 1):
         if 'ALERTA' in linea or 'CASO COMPLEJO' in linea:
@@ -182,21 +182,21 @@ if st.button("🔍 Analizar Caso", type="primary", use_container_width=True):
             st.write(linea)
     
     if resultado['factores_activados']:
-        st.subheader("🔍 Factores Activados en el Análisis")
+        st.subheader("Factores Activados en el Análisis")
         cols = st.columns(min(len(resultado['factores_activados']), 3))
         for idx, factor in enumerate(resultado['factores_activados']):
             with cols[idx % 3]:
-                st.info(f"✓ {factor}")
+                st.info(factor)
     
     st.divider()
     
     st.warning("""
-    ⚠️ **IMPORTANTE**: Este sistema es una herramienta de apoyo a la decisión. 
+    **IMPORTANTE**: Este sistema es una herramienta de apoyo a la decisión. 
     La valoración final y la toma de decisiones debe realizarse siempre por un 
     profesional cualificado del ámbito socioeducativo.
     """)
     
-    with st.expander("📄 Ver datos del caso introducidos"):
+    with st.expander("Ver datos del caso introducidos"):
         st.json({
             "Intervención previa centro": intervencion_previa,
             "Intensidad absentismo": intensidad,
@@ -210,7 +210,7 @@ if st.button("🔍 Analizar Caso", type="primary", use_container_width=True):
 
 st.divider()
 
-with st.expander("ℹ️ Acerca del sistema"):
+with st.expander("Acerca del sistema"):
     st.markdown("""
     ### Sistema Experto de Absentismo Escolar
     
