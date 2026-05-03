@@ -1,5 +1,21 @@
 # Instrucciones de Ejecución
 
+## Primera vez: Instalar dependencias
+
+**IMPORTANTE:** Antes de ejecutar por primera vez, instala las dependencias:
+
+### Opción 1: Script de instalación (Recomendado)
+1. Haz doble clic en `install.bat`
+2. Espera a que termine la instalación
+3. Cierra la ventana
+
+### Opción 2: Manual
+```bash
+pip install -r requirements.txt
+```
+
+---
+
 ## Ejecutar la aplicación localmente
 
 ### Opción 1: Script BAT (Windows - Doble clic)

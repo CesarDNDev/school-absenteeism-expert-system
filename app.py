@@ -1,5 +1,6 @@
 """
-Aplicación Streamlit para el Sistema Experto de Absentismo Escolar
+Aplicación Streamlit INTERACTIVA para el Sistema Experto de Absentismo Escolar
+Modo: Preguntas progresivas según respuestas anteriores
 Autor: César Domínguez Notario
 """
 
@@ -13,15 +14,18 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Inicializar estado de sesión
+if 'paso' not in st.session_state:
+    st.session_state.paso = 1
+if 'datos' not in st.session_state:
+    st.session_state.datos = {}
+
 st.title("Sistema Experto de Absentismo Escolar")
 st.markdown("""
 **Sistema de apoyo a la decisión inicial ante casos de absentismo escolar en adolescentes**
 
-Este sistema experto está basado en reglas extraídas de entrevistas con profesionales 
-del ámbito socioeducativo y utiliza un motor de inferencia para recomendar actuaciones iniciales.
+Este sistema te guiará paso a paso para valorar el caso.
 """)
-
-st.divider()
 
 with st.sidebar:
     st.header("Información del Sistema")
@@ -31,125 +35,215 @@ with st.sidebar:
     - Recomendación de protocolo
     - Apoyo a la decisión profesional
     
-    **Limitaciones:**
-    - No sustituye valoración profesional
-    - No realiza diagnóstico clínico
-    - Requiere supervisión humana
+    **Modo:** Interactivo progresivo
     
     **Autor:** César Domínguez Notario  
     **Módulo:** Modelos de IA  
     **Curso:** 2025-2026
     """)
     
-    st.divider()
+    if st.session_state.paso > 1:
+        st.divider()
+        st.subheader("Datos introducidos:")
+        for key, value in st.session_state.datos.items():
+            st.text(f"{key}: {value}")
     
-    with st.expander("Glosario de términos"):
-        st.markdown("""
-        **SISO:** Herramienta de valoración social (0-100)  
-        **ETI:** Equipo Técnico de Inclusión  
-        **Intensidad baja:** ~25% faltas injustificadas  
-        **Intensidad media:** ~50% faltas injustificadas  
-        **Intensidad alta:** ~75% faltas injustificadas
-        """)
-
-st.header("Datos del Caso")
-
-col1, col2 = st.columns(2)
-
-with col1:
-    st.subheader("Información del Centro Educativo")
-    
-    intervencion_previa = st.radio(
-        "¿El centro educativo ha realizado intervención previa?",
-        options=['si', 'no'],
-        format_func=lambda x: 'Sí' if x == 'si' else 'No',
-        help="El protocolo requiere que el centro haya intervenido antes de activar servicios sociales"
-    )
-    
-    intensidad = st.select_slider(
-        "Intensidad del absentismo",
-        options=['baja', 'media', 'alta'],
-        value='media',
-        help="Baja: ~25% faltas | Media: ~50% faltas | Alta: ~75% faltas"
-    )
-    
-    estado_info = st.selectbox(
-        "Estado de la información disponible",
-        options=['completa', 'incompleta', 'contradictoria'],
-        help="Evalúa la calidad y coherencia de los datos disponibles"
-    )
-
-with col2:
-    st.subheader("Contexto Familiar y Social")
-    
-    siso = st.slider(
-        "Puntuación SISO (vulnerabilidad social)",
-        min_value=0,
-        max_value=100,
-        value=50,
-        help="Herramienta de valoración social. Umbral crítico: 58 puntos"
-    )
-    
-    colaboracion = st.select_slider(
-        "Nivel de colaboración familiar",
-        options=['nula', 'baja', 'media', 'alta'],
-        value='media',
-        help="Grado de cooperación de la familia con el centro y servicios sociales"
-    )
-    
-    antecedentes = st.radio(
-        "¿Existen antecedentes de absentismo?",
-        options=['no', 'si'],
-        format_func=lambda x: 'Sí' if x == 'si' else 'No',
-        help="Casos previos de absentismo en el mismo menor"
-    )
-
-st.subheader("Indicadores Adicionales")
-
-col3, col4 = st.columns(2)
-
-with col3:
-    desproteccion = st.radio(
-        "¿Se detectan indicadores de desprotección del menor?",
-        options=['no', 'si'],
-        format_func=lambda x: 'Sí' if x == 'si' else 'No',
-        help="Situación en la que no están cubiertas las necesidades básicas del menor"
-    )
-
-with col4:
-    situacion_personal = st.selectbox(
-        "Situación personal del menor",
-        options=[
-            'sin_indicadores',
-            'conducta_disruptiva',
-            'salud_mental_grave',
-            'psicopatologia',
-            'consumo_sustancias'
-        ],
-        format_func=lambda x: {
-            'sin_indicadores': 'Sin indicadores especiales',
-            'conducta_disruptiva': 'Conducta disruptiva',
-            'salud_mental_grave': 'Salud mental grave',
-            'psicopatologia': 'Psicopatología',
-            'consumo_sustancias': 'Consumo de sustancias'
-        }[x],
-        help="Indicadores que pueden requerir valoración especializada"
-    )
+    if st.button("Reiniciar"):
+        st.session_state.paso = 1
+        st.session_state.datos = {}
+        st.rerun()
 
 st.divider()
 
-if st.button("Analizar Caso", type="primary", use_container_width=True):
-    with st.spinner("Ejecutando motor de inferencia..."):
-        resultado = valorar_caso(
-            intervencion_previa_centro=intervencion_previa,
-            intensidad_absentismo=intensidad,
-            siso=siso,
-            colaboracion_familiar=colaboracion,
-            antecedentes=antecedentes,
-            desproteccion=desproteccion,
-            situacion_personal=situacion_personal,
-            estado_informacion=estado_info
-        )
+# PASO 1: Intervención previa del centro
+if st.session_state.paso == 1:
+    st.header("Paso 1: Verificación inicial")
+    st.markdown("### ¿El centro educativo ha realizado intervención previa?")
+    st.info("El protocolo requiere que el centro haya intervenido antes de activar servicios sociales")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Sí", use_container_width=True, type="primary"):
+            st.session_state.datos['intervencion_previa_centro'] = 'si'
+            st.session_state.paso = 2
+            st.rerun()
+    with col2:
+        if st.button("No", use_container_width=True):
+            st.session_state.datos['intervencion_previa_centro'] = 'no'
+            st.session_state.paso = 99  # Saltar a resultado
+            st.rerun()
+
+# PASO 2: Estado de la información
+elif st.session_state.paso == 2:
+    st.header("Paso 2: Calidad de la información")
+    st.markdown("### ¿Cómo es la información disponible?")
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        if st.button("Completa", use_container_width=True, type="primary"):
+            st.session_state.datos['estado_informacion'] = 'completa'
+            st.session_state.paso = 3
+            st.rerun()
+    with col2:
+        if st.button("Incompleta", use_container_width=True):
+            st.session_state.datos['estado_informacion'] = 'incompleta'
+            st.session_state.paso = 99
+            st.rerun()
+    with col3:
+        if st.button("Contradictoria", use_container_width=True):
+            st.session_state.datos['estado_informacion'] = 'contradictoria'
+            st.session_state.paso = 99
+            st.rerun()
+
+# PASO 3: Situación personal
+elif st.session_state.paso == 3:
+    st.header("Paso 3: Situación personal del menor")
+    st.markdown("### ¿Presenta alguna de estas situaciones?")
+    
+    opciones = {
+        'sin_indicadores': 'Sin indicadores especiales',
+        'salud_mental_grave': 'Salud mental grave',
+        'psicopatologia': 'Psicopatología',
+        'consumo_sustancias': 'Consumo de sustancias',
+        'conducta_disruptiva': 'Conducta disruptiva'
+    }
+    
+    for key, label in opciones.items():
+        if st.button(label, use_container_width=True, type="primary" if key == 'sin_indicadores' else "secondary"):
+            st.session_state.datos['situacion_personal'] = key
+            if key in ['salud_mental_grave', 'psicopatologia', 'consumo_sustancias']:
+                st.session_state.paso = 99  # Requiere revisión manual
+            else:
+                st.session_state.paso = 4
+            st.rerun()
+
+# PASO 4: Desprotección
+elif st.session_state.paso == 4:
+    st.header("Paso 4: Indicadores de desprotección")
+    st.markdown("### ¿Se detectan indicadores de desprotección del menor?")
+    st.warning("Situación en la que no están cubiertas las necesidades básicas del menor")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("No", use_container_width=True, type="primary"):
+            st.session_state.datos['desproteccion'] = 'no'
+            st.session_state.paso = 5
+            st.rerun()
+    with col2:
+        if st.button("Sí", use_container_width=True):
+            st.session_state.datos['desproteccion'] = 'si'
+            st.session_state.paso = 99  # Intervención urgente
+            st.rerun()
+
+# PASO 5: Intensidad del absentismo
+elif st.session_state.paso == 5:
+    st.header("Paso 5: Intensidad del absentismo")
+    st.markdown("### ¿Cuál es la intensidad de las faltas?")
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Baja", "~25%")
+        if st.button("Seleccionar Baja", use_container_width=True):
+            st.session_state.datos['intensidad_absentismo'] = 'baja'
+            st.session_state.paso = 6
+            st.rerun()
+    with col2:
+        st.metric("Media", "~50%")
+        if st.button("Seleccionar Media", use_container_width=True, type="primary"):
+            st.session_state.datos['intensidad_absentismo'] = 'media'
+            st.session_state.paso = 6
+            st.rerun()
+    with col3:
+        st.metric("Alta", "~75%")
+        if st.button("Seleccionar Alta", use_container_width=True):
+            st.session_state.datos['intensidad_absentismo'] = 'alta'
+            st.session_state.paso = 6
+            st.rerun()
+
+# PASO 6: SISO
+elif st.session_state.paso == 6:
+    st.header("Paso 6: Vulnerabilidad social (SISO)")
+    st.markdown("### Puntuación SISO del caso")
+    st.info("Herramienta de valoración social (0-100). Umbral crítico: 58 puntos")
+    
+    siso = st.slider(
+        "Selecciona la puntuación SISO:",
+        min_value=0,
+        max_value=100,
+        value=50,
+        help="Valores > 58 indican vulnerabilidad elevada"
+    )
+    
+    if st.button("Continuar", type="primary", use_container_width=True):
+        st.session_state.datos['siso'] = siso
+        st.session_state.paso = 7
+        st.rerun()
+
+# PASO 7: Colaboración familiar
+elif st.session_state.paso == 7:
+    st.header("Paso 7: Colaboración familiar")
+    st.markdown("### ¿Cuál es el nivel de colaboración de la familia?")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        if st.button("Nula", use_container_width=True):
+            st.session_state.datos['colaboracion_familiar'] = 'nula'
+            st.session_state.paso = 8
+            st.rerun()
+    with col2:
+        if st.button("Baja", use_container_width=True):
+            st.session_state.datos['colaboracion_familiar'] = 'baja'
+            st.session_state.paso = 8
+            st.rerun()
+    with col3:
+        if st.button("Media", use_container_width=True, type="primary"):
+            st.session_state.datos['colaboracion_familiar'] = 'media'
+            st.session_state.paso = 8
+            st.rerun()
+    with col4:
+        if st.button("Alta", use_container_width=True):
+            st.session_state.datos['colaboracion_familiar'] = 'alta'
+            st.session_state.paso = 8
+            st.rerun()
+
+# PASO 8: Antecedentes
+elif st.session_state.paso == 8:
+    st.header("Paso 8: Antecedentes")
+    st.markdown("### ¿Existen antecedentes de absentismo en este menor?")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("No", use_container_width=True, type="primary"):
+            st.session_state.datos['antecedentes'] = 'no'
+            st.session_state.paso = 99
+            st.rerun()
+    with col2:
+        if st.button("Sí", use_container_width=True):
+            st.session_state.datos['antecedentes'] = 'si'
+            st.session_state.paso = 99
+            st.rerun()
+
+# PASO 99: Resultado
+elif st.session_state.paso == 99:
+    # Completar datos faltantes con valores por defecto
+    defaults = {
+        'intervencion_previa_centro': 'si',
+        'estado_informacion': 'completa',
+        'situacion_personal': 'sin_indicadores',
+        'desproteccion': 'no',
+        'intensidad_absentismo': 'media',
+        'siso': 50,
+        'colaboracion_familiar': 'media',
+        'antecedentes': 'no'
+    }
+    
+    for key, default in defaults.items():
+        if key not in st.session_state.datos:
+            st.session_state.datos[key] = default
+    
+    # Ejecutar sistema experto
+    with st.spinner("Analizando caso..."):
+        resultado = valorar_caso(**st.session_state.datos)
     
     st.success("Análisis completado")
     
@@ -171,7 +265,7 @@ if st.button("Analizar Caso", type="primary", use_container_width=True):
     
     st.subheader("Explicación del Sistema Experto")
     
-    for i, linea in enumerate(resultado['explicacion'], 1):
+    for linea in resultado['explicacion']:
         if 'ALERTA' in linea or 'CASO COMPLEJO' in linea:
             st.error(linea)
         elif 'RECOMENDACIÓN' in linea:
@@ -196,42 +290,10 @@ if st.button("Analizar Caso", type="primary", use_container_width=True):
     profesional cualificado del ámbito socioeducativo.
     """)
     
-    with st.expander("Ver datos del caso introducidos"):
-        st.json({
-            "Intervención previa centro": intervencion_previa,
-            "Intensidad absentismo": intensidad,
-            "Puntuación SISO": siso,
-            "Colaboración familiar": colaboracion,
-            "Antecedentes": antecedentes,
-            "Desprotección": desproteccion,
-            "Situación personal": situacion_personal,
-            "Estado información": estado_info
-        })
+    if st.button("Analizar otro caso", type="primary", use_container_width=True):
+        st.session_state.paso = 1
+        st.session_state.datos = {}
+        st.rerun()
 
 st.divider()
-
-with st.expander("Acerca del sistema"):
-    st.markdown("""
-    ### Sistema Experto de Absentismo Escolar
-    
-    **Desarrollo:** César Domínguez Notario  
-    **Curso:** Especialización en Inteligencia Artificial y Big Data  
-    **Módulo:** Modelos de Inteligencia Artificial  
-    **Fecha:** Abril 2026
-    
-    **Tecnologías utilizadas:**
-    - Motor de inferencia: Experta (Python)
-    - Interfaz: Streamlit
-    - Basado en: Entrevistas con expertos del ámbito socioeducativo
-    
-    **Fuente de conocimiento:**
-    - María José Notario Asensio (Educadora Social, Ayuntamiento de Ciudad Real)
-    - Protocolo de absentismo escolar
-    - Herramienta SISO de valoración social
-    
-    **Reglas implementadas:** 12+ reglas de producción  
-    **Casos contemplados:** Seguimiento, Prevención, Intervención ETI, Equipo de Familia, Derivación, Revisión Manual
-    """)
-
-st.markdown("---")
 st.caption("Sistema Experto de Absentismo Escolar | IES Maestre de Calatrava | 2026")
